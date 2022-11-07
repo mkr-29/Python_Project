@@ -1,0 +1,11 @@
+Here's the code to build your own alexa using python.
+.
+Libraries Used (you can read about the libraries from the following links given along with the corresponding libraries):
+1. speech_recognition : https://pypi.org/project/SpeechRecognition/
+2. pyttsx3  : https://pypi.org/project/pyttsx3/
+3. pywhatkit  : https://pypi.org/project/pywhatkit/
+4. datetime : https://pypi.org/project/DateTime/
+5. wikipedia  : https://pypi.org/project/wikipedia/
+6. pyjokes  : https://pypi.org/project/pyjokes/
+.
+The Project is under development. Upgrades will be there...
