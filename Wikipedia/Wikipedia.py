@@ -1,0 +1,3 @@
+import wikipedia
+
+def get
