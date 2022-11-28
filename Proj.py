@@ -9,6 +9,8 @@ listner=sr.Recognizer()
 engine=pyttsx3.init()
 voices=engine.getProperty('voices')
 engine.setProperty('voice',voices[1].id)
+contact1="+917900464619"
+contact2="+917535985236"
 
 def talk(text):
   engine.say(text)
@@ -27,6 +29,8 @@ def take_command():
     except:
       pass
     return command
+
+def sendW
 
 def run_alexa():
   command=take_command()
