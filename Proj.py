@@ -5,6 +5,9 @@ import datetime
 import wikipedia
 import pyjokes
 import os
+from AppOpener import run
+import subprocess
+import pyautogui
 
 listner=sr.Recognizer()
 engine=pyttsx3.init()
@@ -51,14 +54,29 @@ def openCalculator():
 def openWordpad():
     os.system("write.exe")
 
+def openWhatsapp():
+    run('whatsapp')
 
+def openChrome():
+  os.startfile("C:\Program Files\Google\Chrome\Application\chrome.exe")
 
+def openMsWord():
+  subprocess.call("C:/Program Files/Microsoft Office/root/Office16/WINWORD.EXE")
 
+def openMsExcel():
+  subprocess.call("C:/Program Files/Microsoft Office/root/Office16/EXCEL.EXE")
 
+def openMsPowerPoint():
+  subprocess.call("C:/Program Files/Microsoft Office/root/Office16/POWERPNT.EXE")
 
+def randomFileName():
+    import random
+    import string
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))+'.png'
 
-
-
+def take_screenshot():
+    a=randomFileName()
+    pyautogui.screenshot(a)
 
 
 
@@ -96,7 +114,20 @@ def run_alexa():
   elif("joke" in command):
     talk(pyjokes.get_joke())
   
-  # elif("wordpad" in command):
+  elif("microsoft word" in command):
+    openMsWord()
+
+  elif("open whatsapp" in command):
+    openWhatsapp()
+
+  elif("microsoft power point" in command):
+    openMsPowerPoint()
+
+  elif("microsoft excel" in command):
+    openMsExcel()
+
+  elif("screenshot" in command):
+    take_screenshot()
 
   elif("wordpad" in command):
     talk("Opening wordpad")
@@ -104,7 +135,10 @@ def run_alexa():
 
   elif("paint" in command):
     talk("Opening Paint")
-    openPaint
+    openPaint()
+
+  elif("chrome" in command):
+    openChrome()
 
   elif("calculator" in command):
     talk("Opening calculator")
@@ -114,7 +148,7 @@ def run_alexa():
     talk("Opening Notepad")
     openNotepad()
 
-  elif("whatsapp" in command):
+  elif("send whatsapp" in command):
     talk("Who do you want to send a message")
     contact=take_command()
     

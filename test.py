@@ -1,3 +1,2 @@
-import os
+import pyautogui
 
-def openMS
