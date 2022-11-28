@@ -8,11 +8,12 @@ import os
 from AppOpener import run
 import subprocess
 import pyautogui
+import time
 
 listner=sr.Recognizer()
 engine=pyttsx3.init()
 voices=engine.getProperty('voices')
-engine.setProperty('voice',voices[1].id)
+engine.setProperty('voice',voices[0].id)
 contact1="+917900464619"
 contact2="+917535985236"
 
@@ -21,18 +22,24 @@ def talk(text):
   engine.runAndWait()
 
 def take_command():
-    try:
-      with sr.Microphone() as source:
-        print("Listening...")
-        voice=listner.listen(source)
-        command=listner.recognize_google(voice)
-        command-command.lower()
-        if("alexa" in command):
-          command=command.replace("alexa","")
-          print(command)
-    except:
-      pass
-    return command
+  listner=sr.Recognizer()
+  with sr.Microphone() as source:
+    print("Listening...")
+    talk("Listening")
+    listner.pause_threshold=1
+    voice=listner.listen(source)
+  try:
+    print("Recognizing...")
+    command=listner.recognize_google(voice,language='en-in')
+    command=command.lower()
+    if("alexa" in command):
+      command=command.replace("alexa","")
+      print(command)
+  except Exception as e:
+    print("Say that again please...")
+    talk("Say that again please")
+    return "None"
+  return command
 
 def sendWhatsappMessage(phone_number, message):
     currenthour = datetime.datetime.now().hour
@@ -87,7 +94,50 @@ def closeCurrentApp():
 def switchApp():
     pyautogui.hotkey('alt', 'tab')
 
+def openWinExplorer():
+    pyautogui.hotkey('win', 'e')
 
+def openRun():
+    pyautogui.hotkey('win', 'r')
+
+def writeText(text):
+    time.sleep(5)
+    pyautogui.typewrite(text)
+
+def shutdown():
+    pyautogui.hotkey('win', 'x')
+    time.sleep(1)
+    pyautogui.typewrite("shutdown")
+    time.sleep(1)
+    pyautogui.press("enter")
+
+def restart():
+    pyautogui.hotkey('win', 'x')
+    time.sleep(1)
+    pyautogui.typewrite("restart")
+    time.sleep(1)
+    pyautogui.press("enter")
+
+def sleep():
+    pyautogui.hotkey('win', 'x')
+    time.sleep(1)
+    pyautogui.typewrite("sleep")
+    time.sleep(1)
+    pyautogui.press("enter")
+
+def lock():
+    pyautogui.hotkey('win', 'l')
+
+def currentHour():
+    return datetime.datetime.now().hour
+
+def greetUser():
+    if(currentHour()>=0 and currentHour()<12):
+        talk("Good Morning")
+    elif(currentHour()>=12 and currentHour()<16):
+        talk("Good Afternoon")
+    else:
+        talk("Good Evening")
 
 def run_alexa():
   command=take_command()
@@ -98,20 +148,35 @@ def run_alexa():
     talk("playing"+song)
     pywhatkit.playonyt(song)
   
+  elif("hello" in command or "hi" in command or "hey there" in command):
+    talk("Hello, I am Alexa")
+    talk("What can I do for you?")
+
+  elif("how are you" in command):
+    talk("I am fine, Thank you")
+
   elif("time" in command):
-    time=datetime.datetime.now().strftime('%I:%M %p')
+    time=datetime.datetime.now().strftime('%I %M %p')
     talk("Current time is"+time)
   
-  elif("who the heck is" in command):
+  elif("Who the heck is" in command):
     person=command.replace("who the heck is","")
     info=wikipedia.summary(person)
     print(twoParagraphs(info))
     talk(twoParagraphs(info))
   
-  elif("close current window" in command or "close current tab" in command):
+  elif("Close Current Window" in command or "close current tab" in command):
     talk("closing current window")
     closeCurrentWindow()
     
+  elif("Run Command" in command):
+    talk("opening run")
+    openRun()
+
+  elif("windows explorer" in command):
+    talk("opening windows explorer")
+    openWinExplorer()
+
   elif("exit" in command):
     talk("closing current window")
     closeCurrentApp()
@@ -120,13 +185,26 @@ def run_alexa():
     talk("switching")
     switchApp()
 
+  elif("write text" in command):
+    talk("writing text")
+    text=take_command()
+    writeText(text)
   
-  
+  elif("shutdown system" in command):
+    talk("shutting down")
+    shutdown()
 
+  elif("restart system" in command):
+    talk("restarting")
+    restart()
 
+  elif("sleep system" in command):
+    talk("sleeping")
+    sleep()
 
-
-
+  elif("lock system" in command):
+    talk("locking")
+    lock()
 
   elif("date" in command):
     talk("Sorry I have a headache")
@@ -171,16 +249,16 @@ def run_alexa():
     talk("Opening Notepad")
     openNotepad()
 
-  elif("send whatsapp" in command):
+  elif("whatsapp message" in command):
     talk("Who do you want to send a message")
     contact=take_command()
     
-    if("contact1" in contact):
+    if("contact one" in contact):
       talk("What message do you want to send")
       message=take_command()
       sendWhatsappMessage(contact1,message)
     
-    elif("contact2" in contact):
+    elif("contact two" in contact):
       talk("What message do you want to send")
       message=take_command()
       sendWhatsappMessage(contact2,message)
@@ -191,5 +269,7 @@ def run_alexa():
   else:
     talk("please say the command again")
 
+
+greetUser()
 while(True):
   run_alexa()
