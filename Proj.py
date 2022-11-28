@@ -78,7 +78,8 @@ def take_screenshot():
     a=randomFileName()
     pyautogui.screenshot(a)
 
-
+def closeCurrentWindow():
+    pyautogui.hotkey('ctrl', 'w')
 
 
 
@@ -105,6 +106,10 @@ def run_alexa():
     print(twoParagraphs(info))
     talk(twoParagraphs(info))
   
+  elif("current window" in command or "current tab" in command):
+    talk("closing current window")
+    closeCurrentWindow()
+    
   elif("date" in command):
     talk("Sorry I have a headache")
   
