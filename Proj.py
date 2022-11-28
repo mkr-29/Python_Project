@@ -81,9 +81,11 @@ def take_screenshot():
 def closeCurrentWindow():
     pyautogui.hotkey('ctrl', 'w')
 
+def closeCurrentApp():
+    pyautogui.hotkey('alt', 'f4')
 
-
-
+def switchApp():
+    pyautogui.hotkey('alt', 'tab')
 
 
 
@@ -106,10 +108,26 @@ def run_alexa():
     print(twoParagraphs(info))
     talk(twoParagraphs(info))
   
-  elif("current window" in command or "current tab" in command):
+  elif("close current window" in command or "close current tab" in command):
     talk("closing current window")
     closeCurrentWindow()
     
+  elif("exit" in command):
+    talk("closing current window")
+    closeCurrentApp()
+
+  elif("switch" in command):
+    talk("switching")
+    switchApp()
+
+  
+  
+
+
+
+
+
+
   elif("date" in command):
     talk("Sorry I have a headache")
   
