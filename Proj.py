@@ -1,3 +1,5 @@
+import random
+import string
 import speech_recognition as sr
 import pyttsx3
 import pywhatkit
@@ -42,27 +44,27 @@ def take_command():
   return command
 
 def sendWhatsappMessage(phone_number, message):
-    currenthour = datetime.datetime.now().hour
-    currentminute = datetime.datetime.now().minute
-    pywhatkit.sendwhatmsg(phone_number, message, currenthour, currentminute+1,20,True,5)
+  currenthour = datetime.datetime.now().hour
+  currentminute = datetime.datetime.now().minute
+  pywhatkit.sendwhatmsg(phone_number, message, currenthour, currentminute+2,20,True,5)
 
 def twoParagraphs(text):
-    return text.split(".")[0] + "." + text.split(".")[1] + "."
+  return text.split(".")[0] + "." + text.split(".")[1] + "."
 
 def openNotepad():
-    os.system("notepad.exe")
+  os.system("notepad.exe")
 
 def openPaint():
-    os.system("mspaint.exe")
+  os.system("mspaint.exe")
 
 def openCalculator():
-    os.system("calc.exe")
+  os.system("calc.exe")
 
 def openWordpad():
-    os.system("write.exe")
+  os.system("write.exe")
 
 def openWhatsapp():
-    run('whatsapp')
+  run('whatsapp')
 
 def openChrome():
   os.startfile("C:\Program Files\Google\Chrome\Application\chrome.exe")
@@ -77,67 +79,53 @@ def openMsPowerPoint():
   subprocess.call("C:/Program Files/Microsoft Office/root/Office16/POWERPNT.EXE")
 
 def randomFileName():
-    import random
-    import string
-    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))+'.png'
+  return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))+'.png'
 
 def take_screenshot():
-    a=randomFileName()
-    pyautogui.screenshot(a)
+  a=randomFileName()
+  pyautogui.screenshot(a)
 
 def closeCurrentWindow():
-    pyautogui.hotkey('ctrl', 'w')
+  pyautogui.hotkey('ctrl', 'w')
 
 def closeCurrentApp():
-    pyautogui.hotkey('alt', 'f4')
+  pyautogui.hotkey('alt', 'f4')
 
 def switchApp():
-    pyautogui.hotkey('alt', 'tab')
+  pyautogui.hotkey('alt', 'tab')
 
 def openWinExplorer():
-    pyautogui.hotkey('win', 'e')
+  pyautogui.hotkey('win', 'e')
 
 def openRun():
-    pyautogui.hotkey('win', 'r')
+  pyautogui.hotkey('win', 'r')
 
 def writeText(text):
-    time.sleep(5)
-    pyautogui.typewrite(text)
+  time.sleep(5)
+  pyautogui.typewrite(text)
 
 def shutdown():
-    pyautogui.hotkey('win', 'x')
-    time.sleep(1)
-    pyautogui.typewrite("shutdown")
-    time.sleep(1)
-    pyautogui.press("enter")
+  os.system("shutdown -s -t 1")
 
 def restart():
-    pyautogui.hotkey('win', 'x')
-    time.sleep(1)
-    pyautogui.typewrite("restart")
-    time.sleep(1)
-    pyautogui.press("enter")
+  os.system("restart -r -t 1")
 
 def sleep():
-    pyautogui.hotkey('win', 'x')
-    time.sleep(1)
-    pyautogui.typewrite("sleep")
-    time.sleep(1)
-    pyautogui.press("enter")
+  os.system("sleep -s -t 1")
 
 def lock():
-    pyautogui.hotkey('win', 'l')
+  pyautogui.hotkey('win', 'l')
 
 def currentHour():
-    return datetime.datetime.now().hour
+  return datetime.datetime.now().hour
 
 def greetUser():
-    if(currentHour()>=0 and currentHour()<12):
-        talk("Good Morning")
-    elif(currentHour()>=12 and currentHour()<16):
-        talk("Good Afternoon")
-    else:
-        talk("Good Evening")
+  if(currentHour()>=0 and currentHour()<12):
+    talk("Good Morning")
+  elif(currentHour()>=12 and currentHour()<16):
+    talk("Good Afternoon")
+  else:
+    talk("Good Evening")
 
 def run_alexa():
   command=take_command()
@@ -159,7 +147,7 @@ def run_alexa():
     time=datetime.datetime.now().strftime('%I %M %p')
     talk("Current time is"+time)
   
-  elif("Who the heck is" in command):
+  elif("what is" in command or "who is" in command):
     person=command.replace("who the heck is","")
     info=wikipedia.summary(person)
     print(twoParagraphs(info))
@@ -169,7 +157,7 @@ def run_alexa():
     talk("closing current window")
     closeCurrentWindow()
     
-  elif("Run Command" in command):
+  elif("run command" in command):
     talk("opening run")
     openRun()
 
@@ -177,16 +165,16 @@ def run_alexa():
     talk("opening windows explorer")
     openWinExplorer()
 
-  elif("exit" in command):
+  elif("exit current" in command):
     talk("closing current window")
     closeCurrentApp()
 
-  elif("switch" in command):
+  elif("switch current" in command):
     talk("switching")
     switchApp()
 
   elif("write text" in command):
-    talk("writing text")
+    talk("what do you want to write")
     text=take_command()
     writeText(text)
   
@@ -216,18 +204,24 @@ def run_alexa():
     talk(pyjokes.get_joke())
   
   elif("microsoft word" in command):
+    talk("opeining microsoft word")
     openMsWord()
 
   elif("open whatsapp" in command):
+    talk("opening whatsapp")
     openWhatsapp()
 
   elif("microsoft power point" in command):
+    talk("opening microsoft power point")
     openMsPowerPoint()
 
   elif("microsoft excel" in command):
+    talk("opening microsoft excel")
     openMsExcel()
 
   elif("screenshot" in command):
+    talk("taking screenshot")
+    time.sleep(2)
     take_screenshot()
 
   elif("wordpad" in command):
@@ -245,6 +239,9 @@ def run_alexa():
     talk("Opening calculator")
     openCalculator()
 
+  elif("close it now" in command):
+    exit()
+
   elif("notepad" in command):
     talk("Opening Notepad")
     openNotepad()
@@ -253,12 +250,12 @@ def run_alexa():
     talk("Who do you want to send a message")
     contact=take_command()
     
-    if("contact one" in contact):
+    if("my idea" in contact):
       talk("What message do you want to send")
       message=take_command()
       sendWhatsappMessage(contact1,message)
     
-    elif("contact two" in contact):
+    elif("my airtel" in contact):
       talk("What message do you want to send")
       message=take_command()
       sendWhatsappMessage(contact2,message)
